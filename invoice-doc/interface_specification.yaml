@@ -22,9 +22,27 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Invoice'
-        '404':
-          description: Invoice not found
-  /invoices/{invoice_no}:
+    post:
+      tags:
+        - invoices
+      summary: Create new Invoice
+      description: Create new a single invoice
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/UserID'
+        - $ref: '#/parameters/ClientNumber'
+        - $ref: '#/parameters/InvoiceParams'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Invoice'
+        '400':
+          description: Bad request
+  '/invoices/{invoice_no}':
     get:
       tags:
         - invoices
@@ -43,7 +61,7 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Invoice not found
-    post:
+    patch:
       tags:
         - invoices
       summary: Update invoice
@@ -66,27 +84,6 @@ paths:
           description: Bad request
         '404':
           description: Invoice not found
-  /invoices/new:
-    post:
-      tags:
-        - invoices
-      summary: Create new Invoice
-      description: Create new a single invoice
-      produces:
-        - application/json
-      consumes:
-        - application/json
-      parameters:
-        - $ref: '#/parameters/UserID'
-        - $ref: '#/parameters/ClientNumber'
-        - $ref: '#/parameters/InvoiceParams'
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/Invoice'
-        '400':
-          description: Bad request
 parameters:
   UserID:
     name: user
@@ -128,7 +125,7 @@ definitions:
     format: int32
     minimum: 0
     exclusiveMinimum: true
-    description: ŒÚ‹qŠÇ—”Ô†
+    description: é¡§å®¢ç®¡ç†ç•ªå·
   Client:
     type: object
     properties:
@@ -137,46 +134,49 @@ definitions:
       client_charge_last_name:
         type: string
         maxLength: 150
-        description: ŒÚ‹q’S“–Ò–¼i–¼šj
+        description: é¡§å®¢æ‹…å½“è€…æ°åï¼ˆåå­—ï¼‰
       client_charge_first_name:
         type: string
         maxLength: 150
-        description: ŒÚ‹q’S“–Ò–¼i–¼‘Oj
+        description: é¡§å®¢æ‹…å½“è€…æ°åï¼ˆåå‰ï¼‰
+  InvoiceAmount:
+    type: object
+    properties:
+      invoice_amt:
+        type: integer
+        format: int32
+        minimum: 0
+        exclusiveMinimum: true
+        description: è«‹æ±‚é‡‘é¡
+      tax_amt:
+        type: integer
+        format: int32
+        minimum: 0
+        exclusiveMinimum: false
+        description: æ¶ˆè²»ç¨
   InvoiceDetail:
     type: object
     properties:
       invoice_create_date:
         type: string
         format: date
-        description: ¿‹‘ì¬“ú
+        description: è«‹æ±‚æ›¸ä½œæˆæ—¥
       invoice_title:
         type: string
         maxLength: 300
-        description: ¿‹‘Œ–¼
-      invoice_amt:
-        type: integer
-        format: int32
-        minimum: 0
-        exclusiveMinimum: true
-        description: ¿‹‹àŠz
-      tax_amt:
-        type: integer
-        format: int32
-        minimum: 0
-        exclusiveMinimum: false
-        description: Á”ïÅ
+        description: è«‹æ±‚æ›¸ä»¶å
       invoice_start_date:
         type: string
         format: date
-        description: ¿‹ŠúŠÔŠJn“ú
+        description: è«‹æ±‚æœŸé–“é–‹å§‹æ—¥
       invoice_end_date:
         type: string
         format: date
-        description: ¿‹ŠúŠÔI—¹“ú
+        description: è«‹æ±‚æœŸé–“çµ‚äº†æ—¥
       invoice_note:
         type: string
         maxLength: 3000
-        description: ”õl
+        description: å‚™è€ƒ
   InvoiceStatus:
     type: string
     enum:
@@ -185,8 +185,8 @@ definitions:
       - paid
       - countermand
     description: |-
-      ¿‹ó‘Ô:
-      [ new: V‹Kì¬, sent: ‘—•tÏ, paid: “ü‹àŠm”FÏ, countermand: ”pŠü ]
+      è«‹æ±‚çŠ¶æ…‹:
+      [ new: æ–°è¦ä½œæˆ, sent: é€ä»˜æ¸ˆ, paid: å…¥é‡‘ç¢ºèªæ¸ˆ, countermand: å»ƒæ£„ ]
   Invoice:
     type: object
     properties:
@@ -195,9 +195,11 @@ definitions:
         format: int32
         minimum: 0
         exclusiveMinimum: true
-        description: ¿‹‘ŠÇ—”Ô†
+        description: è«‹æ±‚æ›¸ç®¡ç†ç•ªå·
       invoice_status:
         $ref: '#/definitions/InvoiceStatus'
+      amount:
+        $ref: '#/definitions/InvoiceAmount'
       detail:
         $ref: '#/definitions/InvoiceDetail'
       client:
@@ -208,16 +210,16 @@ definitions:
           create_user:
             type: string
             maxLength: 30
-            description: “o˜^ƒ†[ƒUID
+            description: ç™»éŒ²ãƒ¦ãƒ¼ã‚¶ID
           create_datetime:
             type: string
             format: date-time
-            description: “o˜^“ú
+            description: ç™»éŒ²æ—¥æ™‚
           update_user:
             type: string
             maxLength: 30
-            description: XVƒ†[ƒUID
+            description: æ›´æ–°ãƒ¦ãƒ¼ã‚¶ID
           update_datetime:
             type: string
             format: date-time
-            description: XV“ú
+            description: æ›´æ–°æ—¥æ™‚
