@@ -719,30 +719,36 @@ margin-bottom: 20px;
   "description" : "顧客管理番号",
   "minimum" : 0
 };
-            defs.Invoice = {
+            defs.Error = {
   "type" : "object",
+  "required" : [ "code", "message" ],
   "properties" : {
-    "invoice_no" : {
+    "code" : {
+      "type" : "string"
+    },
+    "message" : {
+      "type" : "string"
+    }
+  }
+};
+            defs.invoice = {
+  "type" : "object",
+  "required" : [ "client_no", "detail", "user_id" ],
+  "properties" : {
+    "user_id" : {
+      "type" : "string",
+      "description" : "User ID",
+      "maxLength" : 30
+    },
+    "client_no" : {
       "type" : "integer",
       "format" : "int32",
-      "description" : "請求書管理番号",
+      "description" : "Client number",
       "minimum" : 0,
       "exclusiveMinimum" : true
     },
-    "invoice_status" : {
-      "$ref" : "#/definitions/InvoiceStatus"
-    },
-    "amount" : {
-      "$ref" : "#/definitions/InvoiceAmount"
-    },
     "detail" : {
       "$ref" : "#/definitions/InvoiceDetail"
-    },
-    "client" : {
-      "$ref" : "#/definitions/Client"
-    },
-    "property" : {
-      "$ref" : "#/definitions/Invoice_property"
     }
   }
 };
@@ -1421,20 +1427,47 @@ except ApiException as e:
                                 </div>
                             </div>
 
-                            <h3> Status: 400 - Invalid ID supplied </h3>
+                            <h3> Status: 400 - Bad reauest </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-invoicesInvoiceNoGet-400-schema">Schema</a>
+                                </li>
+
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
+                                <div class="tab-pane active" id="responses-invoicesInvoiceNoGet-400-schema">
+                                  <div id='responses-invoicesInvoiceNoGet-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad reauest",
+  "schema" : {
+    "$ref" : "#/definitions/Error"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
 
-                            <h3> Status: 404 - Invoice not found </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-invoicesInvoiceNoGet-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-invoicesInvoiceNoGet-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-invoicesInvoiceNoGet-400-schema-data' type='hidden' value=''></input>
+                                </div>
                             </div>
 
                         </article>
@@ -1472,7 +1505,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Invoices-invoicesInvoiceNoPatch-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://localhost/invoices/{invoice_no}?user=&status="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://localhost/invoices/{invoice_no}?status="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Invoices-invoicesInvoiceNoPatch-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1488,12 +1521,11 @@ public class InvoicesApiExample {
     public static void main(String[] args) {
         
         InvoicesApi apiInstance = new InvoicesApi();
-        String user = user_example; // String | 
         Integer invoiceNo = 56; // Integer | Invoce number
         String status = status_example; // String | Invoce status
-        InvoiceDetail invoice = ; // InvoiceDetail | Invoice detail to update
+        Invoice invoice = ; // Invoice | Invoice detail to update
         try {
-            Invoice result = apiInstance.invoicesInvoiceNoPatch(user, invoiceNo, status, invoice);
+            Invoice result = apiInstance.invoicesInvoiceNoPatch(invoiceNo, status, invoice);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InvoicesApi#invoicesInvoiceNoPatch");
@@ -1510,12 +1542,11 @@ public class InvoicesApiExample {
 
     public static void main(String[] args) {
         InvoicesApi apiInstance = new InvoicesApi();
-        String user = user_example; // String | 
         Integer invoiceNo = 56; // Integer | Invoce number
         String status = status_example; // String | Invoce status
-        InvoiceDetail invoice = ; // InvoiceDetail | Invoice detail to update
+        Invoice invoice = ; // Invoice | Invoice detail to update
         try {
-            Invoice result = apiInstance.invoicesInvoiceNoPatch(user, invoiceNo, status, invoice);
+            Invoice result = apiInstance.invoicesInvoiceNoPatch(invoiceNo, status, invoice);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InvoicesApi#invoicesInvoiceNoPatch");
@@ -1529,16 +1560,14 @@ public class InvoicesApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Invoices-invoicesInvoiceNoPatch-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *user = user_example; // 
-Integer *invoiceNo = 56; // Invoce number
+                              <pre class="prettyprint"><code class="language-cpp">Integer *invoiceNo = 56; // Invoce number
 String *status = status_example; // Invoce status (optional)
-InvoiceDetail *invoice = ; // Invoice detail to update (optional)
+Invoice *invoice = ; // Invoice detail to update (optional)
 
 InvoicesApi *apiInstance = [[InvoicesApi alloc] init];
 
 // Update invoice
-[apiInstance invoicesInvoiceNoPatchWith:user
-    invoiceNo:invoiceNo
+[apiInstance invoicesInvoiceNoPatchWith:invoiceNo
     status:status
     invoice:invoice
               completionHandler: ^(Invoice output, NSError* error) {
@@ -1557,13 +1586,11 @@ InvoicesApi *apiInstance = [[InvoicesApi alloc] init];
 
 var api = new InvoiceApiSpecification.InvoicesApi()
 
-var user = user_example; // {String} 
-
 var invoiceNo = 56; // {Integer} Invoce number
 
 var opts = { 
   'status': status_example, // {String} Invoce status
-  'invoice':  // {InvoiceDetail} Invoice detail to update
+  'invoice':  // {Invoice} Invoice detail to update
 };
 
 var callback = function(error, data, response) {
@@ -1573,7 +1600,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.invoicesInvoiceNoPatch(user, invoiceNo, opts, callback);
+api.invoicesInvoiceNoPatch(invoiceNo, opts, callback);
 </code></pre>
                             </div>
 
@@ -1595,15 +1622,14 @@ namespace Example
         {
             
             var apiInstance = new InvoicesApi();
-            var user = user_example;  // String | 
             var invoiceNo = 56;  // Integer | Invoce number
             var status = status_example;  // String | Invoce status (optional) 
-            var invoice = new InvoiceDetail(); // InvoiceDetail | Invoice detail to update (optional) 
+            var invoice = new Invoice(); // Invoice | Invoice detail to update (optional) 
 
             try
             {
                 // Update invoice
-                Invoice result = apiInstance.invoicesInvoiceNoPatch(user, invoiceNo, status, invoice);
+                Invoice result = apiInstance.invoicesInvoiceNoPatch(invoiceNo, status, invoice);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1621,13 +1647,12 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\InvoicesApi();
-$user = user_example; // String | 
 $invoiceNo = 56; // Integer | Invoce number
 $status = status_example; // String | Invoce status
-$invoice = ; // InvoiceDetail | Invoice detail to update
+$invoice = ; // Invoice | Invoice detail to update
 
 try {
-    $result = $api_instance->invoicesInvoiceNoPatch($user, $invoiceNo, $status, $invoice);
+    $result = $api_instance->invoicesInvoiceNoPatch($invoiceNo, $status, $invoice);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling InvoicesApi->invoicesInvoiceNoPatch: ', $e->getMessage(), PHP_EOL;
@@ -1641,13 +1666,12 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::InvoicesApi;
 
 my $api_instance = WWW::SwaggerClient::InvoicesApi->new();
-my $user = user_example; # String | 
 my $invoiceNo = 56; # Integer | Invoce number
 my $status = status_example; # String | Invoce status
-my $invoice = WWW::SwaggerClient::Object::InvoiceDetail->new(); # InvoiceDetail | Invoice detail to update
+my $invoice = WWW::SwaggerClient::Object::Invoice->new(); # Invoice | Invoice detail to update
 
 eval { 
-    my $result = $api_instance->invoicesInvoiceNoPatch(user => $user, invoiceNo => $invoiceNo, status => $status, invoice => $invoice);
+    my $result = $api_instance->invoicesInvoiceNoPatch(invoiceNo => $invoiceNo, status => $status, invoice => $invoice);
     print Dumper($result);
 };
 if ($@) {
@@ -1664,14 +1688,13 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.InvoicesApi()
-user = user_example # String | 
 invoiceNo = 56 # Integer | Invoce number
 status = status_example # String | Invoce status (optional)
-invoice =  # InvoiceDetail | Invoice detail to update (optional)
+invoice =  # Invoice | Invoice detail to update (optional)
 
 try: 
     # Update invoice
-    api_response = api_instance.invoices_invoice_no_patch(user, invoiceNo, status=status, invoice=invoice)
+    api_response = api_instance.invoices_invoice_no_patch(invoiceNo, status=status, invoice=invoice)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling InvoicesApi->invoicesInvoiceNoPatch: %s\n" % e)</code></pre>
@@ -1733,7 +1756,7 @@ $(document).ready(function() {
   "description" : "Invoice detail to update",
   "required" : false,
   "schema" : {
-    "$ref" : "#/definitions/InvoiceDetail"
+    "$ref" : "#/definitions/invoice"
   },
   "x-codegen-hasMoreOptional" : false
 };
@@ -1766,26 +1789,6 @@ $(document).ready(function() {
                                 <th width="150px">Name</th>
                                 <th>Description</th>
                               </tr>
-                                <tr><td style="width:150px;">user*</td>
-<td>
-
-
-    <div id="d2e199_invoicesInvoiceNoPatch_user">
-        <div class="json-schema-view">
-            <div class="primitive">
-                <span class="type">
-                    String
-                </span>
-
-            </div>
-                <div class="inner required">
-                    Required
-                </div>
-        </div>
-    </div>
-</td>
-</tr>
-
                                 <tr><td style="width:150px;">status</td>
 <td>
 
@@ -1852,20 +1855,47 @@ $(document).ready(function() {
                                 </div>
                             </div>
 
-                            <h3> Status: 400 - Bad request </h3>
+                            <h3> Status: 400 - Bad reauest </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-invoicesInvoiceNoPatch-400-schema">Schema</a>
+                                </li>
+
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
+                                <div class="tab-pane active" id="responses-invoicesInvoiceNoPatch-400-schema">
+                                  <div id='responses-invoicesInvoiceNoPatch-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad reauest",
+  "schema" : {
+    "$ref" : "#/definitions/Error"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
 
-                            <h3> Status: 404 - Invoice not found </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-invoicesInvoiceNoPatch-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-invoicesInvoiceNoPatch-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-invoicesInvoiceNoPatch-400-schema-data' type='hidden' value=''></input>
+                                </div>
                             </div>
 
                         </article>
@@ -1903,7 +1933,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Invoices-invoicesPost-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://localhost/invoices?user=&client_no="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://localhost/invoices"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Invoices-invoicesPost-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1919,11 +1949,9 @@ public class InvoicesApiExample {
     public static void main(String[] args) {
         
         InvoicesApi apiInstance = new InvoicesApi();
-        String user = user_example; // String | 
-        Integer clientNo = 56; // Integer | Client number
-        InvoiceDetail invoice = ; // InvoiceDetail | Invoice detail to update
+        Invoice invoice = ; // Invoice | Invoice detail to update
         try {
-            Invoice result = apiInstance.invoicesPost(user, clientNo, invoice);
+            Invoice result = apiInstance.invoicesPost(invoice);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InvoicesApi#invoicesPost");
@@ -1940,11 +1968,9 @@ public class InvoicesApiExample {
 
     public static void main(String[] args) {
         InvoicesApi apiInstance = new InvoicesApi();
-        String user = user_example; // String | 
-        Integer clientNo = 56; // Integer | Client number
-        InvoiceDetail invoice = ; // InvoiceDetail | Invoice detail to update
+        Invoice invoice = ; // Invoice | Invoice detail to update
         try {
-            Invoice result = apiInstance.invoicesPost(user, clientNo, invoice);
+            Invoice result = apiInstance.invoicesPost(invoice);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InvoicesApi#invoicesPost");
@@ -1958,16 +1984,12 @@ public class InvoicesApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Invoices-invoicesPost-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *user = user_example; // 
-Integer *clientNo = 56; // Client number
-InvoiceDetail *invoice = ; // Invoice detail to update (optional)
+                              <pre class="prettyprint"><code class="language-cpp">Invoice *invoice = ; // Invoice detail to update (optional)
 
 InvoicesApi *apiInstance = [[InvoicesApi alloc] init];
 
 // Create new Invoice
-[apiInstance invoicesPostWith:user
-    clientNo:clientNo
-    invoice:invoice
+[apiInstance invoicesPostWith:invoice
               completionHandler: ^(Invoice output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -1984,12 +2006,8 @@ InvoicesApi *apiInstance = [[InvoicesApi alloc] init];
 
 var api = new InvoiceApiSpecification.InvoicesApi()
 
-var user = user_example; // {String} 
-
-var clientNo = 56; // {Integer} Client number
-
 var opts = { 
-  'invoice':  // {InvoiceDetail} Invoice detail to update
+  'invoice':  // {Invoice} Invoice detail to update
 };
 
 var callback = function(error, data, response) {
@@ -1999,7 +2017,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.invoicesPost(user, clientNo, opts, callback);
+api.invoicesPost(opts, callback);
 </code></pre>
                             </div>
 
@@ -2021,14 +2039,12 @@ namespace Example
         {
             
             var apiInstance = new InvoicesApi();
-            var user = user_example;  // String | 
-            var clientNo = 56;  // Integer | Client number
-            var invoice = new InvoiceDetail(); // InvoiceDetail | Invoice detail to update (optional) 
+            var invoice = new Invoice(); // Invoice | Invoice detail to update (optional) 
 
             try
             {
                 // Create new Invoice
-                Invoice result = apiInstance.invoicesPost(user, clientNo, invoice);
+                Invoice result = apiInstance.invoicesPost(invoice);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2046,12 +2062,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\InvoicesApi();
-$user = user_example; // String | 
-$clientNo = 56; // Integer | Client number
-$invoice = ; // InvoiceDetail | Invoice detail to update
+$invoice = ; // Invoice | Invoice detail to update
 
 try {
-    $result = $api_instance->invoicesPost($user, $clientNo, $invoice);
+    $result = $api_instance->invoicesPost($invoice);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling InvoicesApi->invoicesPost: ', $e->getMessage(), PHP_EOL;
@@ -2065,12 +2079,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::InvoicesApi;
 
 my $api_instance = WWW::SwaggerClient::InvoicesApi->new();
-my $user = user_example; # String | 
-my $clientNo = 56; # Integer | Client number
-my $invoice = WWW::SwaggerClient::Object::InvoiceDetail->new(); # InvoiceDetail | Invoice detail to update
+my $invoice = WWW::SwaggerClient::Object::Invoice->new(); # Invoice | Invoice detail to update
 
 eval { 
-    my $result = $api_instance->invoicesPost(user => $user, clientNo => $clientNo, invoice => $invoice);
+    my $result = $api_instance->invoicesPost(invoice => $invoice);
     print Dumper($result);
 };
 if ($@) {
@@ -2087,13 +2099,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.InvoicesApi()
-user = user_example # String | 
-clientNo = 56 # Integer | Client number
-invoice =  # InvoiceDetail | Invoice detail to update (optional)
+invoice =  # Invoice | Invoice detail to update (optional)
 
 try: 
     # Create new Invoice
-    api_response = api_instance.invoices_post(user, clientNo, invoice=invoice)
+    api_response = api_instance.invoices_post(invoice=invoice)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling InvoicesApi->invoicesPost: %s\n" % e)</code></pre>
@@ -2122,7 +2132,7 @@ $(document).ready(function() {
   "description" : "Invoice detail to update",
   "required" : false,
   "schema" : {
-    "$ref" : "#/definitions/InvoiceDetail"
+    "$ref" : "#/definitions/invoice"
   }
 };
   var schema = schemaWrapper.schema;
@@ -2148,59 +2158,6 @@ $(document).ready(function() {
                             </table>
 
 
-                            <div class="methodsubtabletitle">Query parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                <tr><td style="width:150px;">user*</td>
-<td>
-
-
-    <div id="d2e199_invoicesPost_user">
-        <div class="json-schema-view">
-            <div class="primitive">
-                <span class="type">
-                    String
-                </span>
-
-            </div>
-                <div class="inner required">
-                    Required
-                </div>
-        </div>
-    </div>
-</td>
-</tr>
-
-                                <tr><td style="width:150px;">client_no*</td>
-<td>
-
-
-    <div id="d2e199_invoicesPost_clientNo">
-        <div class="json-schema-view">
-            <div class="primitive">
-                <span class="type">
-                    Integer
-                </span>
-                    <span class="format">
-                        (int32)
-                    </span>
-
-                    <div class="inner description">
-                        Client number
-                    </div>
-            </div>
-                <div class="inner required">
-                    Required
-                </div>
-        </div>
-    </div>
-</td>
-</tr>
-
-                            </table>
 
                           <h2>Responses</h2>
                             <h3> Status: 200 - successful operation </h3>
@@ -2246,12 +2203,47 @@ $(document).ready(function() {
                                 </div>
                             </div>
 
-                            <h3> Status: 400 - Bad request </h3>
+                            <h3> Status: 400 - Bad reauest </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-invoicesPost-400-schema">Schema</a>
+                                </li>
+
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-invoicesPost-400-schema">
+                                  <div id='responses-invoicesPost-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad reauest",
+  "schema" : {
+    "$ref" : "#/definitions/Error"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-invoicesPost-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-invoicesPost-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-invoicesPost-400-schema-data' type='hidden' value=''></input>
+                                </div>
                             </div>
 
                         </article>
@@ -2271,7 +2263,7 @@ $(document).ready(function() {
           </div>
           <div id="generator">
             <div class="content">
-              Generated 2018-01-20T05:36:53.313Z
+              Generated 2018-01-28T08:10:14.163Z
             </div>
           </div>
       </div>

@@ -32,8 +32,6 @@ paths:
       consumes:
         - application/json
       parameters:
-        - $ref: '#/parameters/UserID'
-        - $ref: '#/parameters/ClientNumber'
         - $ref: '#/parameters/InvoiceParams'
       responses:
         '200':
@@ -41,7 +39,7 @@ paths:
           schema:
             $ref: '#/definitions/Invoice'
         '400':
-          description: Bad request
+          $ref: '#/responses/BadRequest'
   '/invoices/{invoice_no}':
     get:
       tags:
@@ -58,9 +56,7 @@ paths:
           schema:
             $ref: '#/definitions/Invoice'
         '400':
-          description: Invalid ID supplied
-        '404':
-          description: Invoice not found
+          $ref: '#/responses/BadRequest'
     patch:
       tags:
         - invoices
@@ -71,7 +67,6 @@ paths:
       consumes:
         - application/json
       parameters:
-        - $ref: '#/parameters/UserID'
         - $ref: '#/parameters/InvoiceNumber'
         - $ref: '#/parameters/InvoiceStatus'
         - $ref: '#/parameters/InvoiceParams'
@@ -81,16 +76,8 @@ paths:
           schema:
             $ref: '#/definitions/Invoice'
         '400':
-          description: Bad request
-        '404':
-          description: Invoice not found
+          $ref: '#/responses/BadRequest'
 parameters:
-  UserID:
-    name: user
-    in: query
-    type: string
-    maxLength: 30
-    required: true
   InvoiceNumber:
     name: invoice_no
     in: path
@@ -104,21 +91,29 @@ parameters:
     in: query
     type: string
     maxLength: 30
-  ClientNumber:
-    name: client_no
-    in: query
-    description: Client number
-    required: true
-    type: integer
-    format: int32
-    minimum: 0
-    exclusiveMinimum: true
   InvoiceParams:
     name: invoice
     in: body
     description: Invoice detail to update
     schema:
-      $ref: '#/definitions/InvoiceDetail'
+      type: object
+      required:
+        - user_id
+        - client_no
+        - detail
+      properties:
+        user_id:
+          description: User ID
+          type: string
+          maxLength: 30
+        client_no:
+          description: Client number
+          type: integer
+          format: int32
+          minimum: 0
+          exclusiveMinimum: true
+        detail:
+          $ref: '#/definitions/InvoiceDetail'
 definitions:
   ClientNumber:
     type: integer
@@ -223,3 +218,18 @@ definitions:
             type: string
             format: date-time
             description: 更新日時
+  Error:
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+      - code
+      - message
+responses:
+  BadRequest:
+    description: Bad reauest
+    schema:
+      $ref: '#/definitions/Error'
