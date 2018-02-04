@@ -11,8 +11,6 @@ paths:
         - invoices
       summary: Get invoice list
       description: Return invoice list
-      consumes:
-        - application/json
       produces:
         - application/json
       responses:
