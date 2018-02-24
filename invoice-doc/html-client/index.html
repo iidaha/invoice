@@ -1,0 +1,607 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Invoice API Specification</title>
+    <style type="text/css">
+      body {
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+
+    </style>
+  </head>
+  <body>
+  <h1>Invoice API Specification</h1>
+    <div class="app-desc">Invoice API Interface Specification</div>
+    <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
+    <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
+    <div class="app-desc">Version: 1.0.0</div>
+    <div class="app-desc">BasePath:</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h3>Table of Contents </h3>
+  <div class="method-summary"></div>
+  <h4><a href="#Invoices">Invoices</a></h4>
+  <ul>
+  <li><a href="#invoicesGet"><code><span class="http-method">get</span> /invoices</code></a></li>
+  <li><a href="#invoicesInvoiceNoGet"><code><span class="http-method">get</span> /invoices/{invoice_no}</code></a></li>
+  <li><a href="#invoicesInvoiceNoPatch"><code><span class="http-method">patch</span> /invoices/{invoice_no}</code></a></li>
+  <li><a href="#invoicesPost"><code><span class="http-method">post</span> /invoices</code></a></li>
+  </ul>
+
+  <h1><a name="Invoices">Invoices</a></h1>
+  <div class="method"><a name="invoicesGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /invoices</code></pre></div>
+    <div class="method-summary">Get invoice list (<span class="nickname">invoicesGet</span>)</div>
+    <div class="method-notes">Return invoice list</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#Invoice">Invoice</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "amount" : {
+    "tax_amt" : 0,
+    "invoice_amt" : 0
+  },
+  "invoice_no" : 0,
+  "property" : {
+    "update_user" : "aeiou",
+    "create_datetime" : "2000-01-23T04:56:07.000+00:00",
+    "update_datetime" : "2000-01-23T04:56:07.000+00:00",
+    "create_user" : "aeiou"
+  },
+  "client" : {
+    "client_no" : { },
+    "client_charge_last_name" : "aeiou",
+    "client_charge_first_name" : "aeiou"
+  },
+  "detail" : {
+    "invoice_note" : "aeiou",
+    "invoice_end_date" : "2000-01-23",
+    "invoice_start_date" : "2000-01-23",
+    "invoice_create_date" : "2000-01-23",
+    "invoice_title" : "aeiou"
+  },
+  "invoice_status" : { }
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+        
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="invoicesInvoiceNoGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /invoices/{invoice_no}</code></pre></div>
+    <div class="method-summary">Finds invoice by ID (<span class="nickname">invoicesInvoiceNoGet</span>)</div>
+    <div class="method-notes">Return a single invoice</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">invoice_no (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Invoce number format: int32</div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Invoice">Invoice</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "amount" : {
+    "tax_amt" : 0,
+    "invoice_amt" : 0
+  },
+  "invoice_no" : 0,
+  "property" : {
+    "update_user" : "aeiou",
+    "create_datetime" : "2000-01-23T04:56:07.000+00:00",
+    "update_datetime" : "2000-01-23T04:56:07.000+00:00",
+    "create_user" : "aeiou"
+  },
+  "client" : {
+    "client_no" : { },
+    "client_charge_last_name" : "aeiou",
+    "client_charge_first_name" : "aeiou"
+  },
+  "detail" : {
+    "invoice_note" : "aeiou",
+    "invoice_end_date" : "2000-01-23",
+    "invoice_start_date" : "2000-01-23",
+    "invoice_create_date" : "2000-01-23",
+    "invoice_title" : "aeiou"
+  },
+  "invoice_status" : { }
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+        <a href="#Invoice">Invoice</a>
+    <h4 class="field-label">400</h4>
+    Bad reauest
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="invoicesInvoiceNoPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /invoices/{invoice_no}</code></pre></div>
+    <div class="method-summary">Update invoice (<span class="nickname">invoicesInvoiceNoPatch</span>)</div>
+    <div class="method-notes">Update a single invoice</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">invoice_no (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Invoce number format: int32</div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">invoice <a href="#invoice">invoice</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Invoice detail to update </div>
+
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">status (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Invoce status </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Invoice">Invoice</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "amount" : {
+    "tax_amt" : 0,
+    "invoice_amt" : 0
+  },
+  "invoice_no" : 0,
+  "property" : {
+    "update_user" : "aeiou",
+    "create_datetime" : "2000-01-23T04:56:07.000+00:00",
+    "update_datetime" : "2000-01-23T04:56:07.000+00:00",
+    "create_user" : "aeiou"
+  },
+  "client" : {
+    "client_no" : { },
+    "client_charge_last_name" : "aeiou",
+    "client_charge_first_name" : "aeiou"
+  },
+  "detail" : {
+    "invoice_note" : "aeiou",
+    "invoice_end_date" : "2000-01-23",
+    "invoice_start_date" : "2000-01-23",
+    "invoice_create_date" : "2000-01-23",
+    "invoice_title" : "aeiou"
+  },
+  "invoice_status" : { }
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+        <a href="#Invoice">Invoice</a>
+    <h4 class="field-label">400</h4>
+    Bad reauest
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="invoicesPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /invoices</code></pre></div>
+    <div class="method-summary">Create new Invoice (<span class="nickname">invoicesPost</span>)</div>
+    <div class="method-notes">Create new a single invoice</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">invoice <a href="#invoice">invoice</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Invoice detail to update </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Invoice">Invoice</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "amount" : {
+    "tax_amt" : 0,
+    "invoice_amt" : 0
+  },
+  "invoice_no" : 0,
+  "property" : {
+    "update_user" : "aeiou",
+    "create_datetime" : "2000-01-23T04:56:07.000+00:00",
+    "update_datetime" : "2000-01-23T04:56:07.000+00:00",
+    "create_user" : "aeiou"
+  },
+  "client" : {
+    "client_no" : { },
+    "client_charge_last_name" : "aeiou",
+    "client_charge_first_name" : "aeiou"
+  },
+  "detail" : {
+    "invoice_note" : "aeiou",
+    "invoice_end_date" : "2000-01-23",
+    "invoice_start_date" : "2000-01-23",
+    "invoice_create_date" : "2000-01-23",
+    "invoice_title" : "aeiou"
+  },
+  "invoice_status" : { }
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+        <a href="#Invoice">Invoice</a>
+    <h4 class="field-label">400</h4>
+    Bad reauest
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#Client"><code>Client</code> - </a></li>
+    <li><a href="#ClientNumber"><code>ClientNumber</code> - </a></li>
+    <li><a href="#Error"><code>Error</code> - </a></li>
+    <li><a href="#Invoice"><code>Invoice</code> - </a></li>
+    <li><a href="#InvoiceAmount"><code>InvoiceAmount</code> - </a></li>
+    <li><a href="#InvoiceDetail"><code>InvoiceDetail</code> - </a></li>
+    <li><a href="#InvoiceStatus"><code>InvoiceStatus</code> - </a></li>
+    <li><a href="#Invoice_property"><code>Invoice_property</code> - </a></li>
+    <li><a href="#invoice"><code>invoice</code> - </a></li>
+  </ol>
+
+  <div class="model">
+    <h3><a name="Client"><code>Client</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">client_no (optional)</div><div class="param-desc"><span class="param-type"><a href="#ClientNumber">ClientNumber</a></span>  </div>
+<div class="param">client_charge_last_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 顧客担当者氏名（名字） </div>
+<div class="param">client_charge_first_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 顧客担当者氏名（名前） </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="ClientNumber"><code>ClientNumber</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>顧客管理番号</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Error"><code>Error</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">code </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">message </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Invoice"><code>Invoice</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">invoice_no (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> 請求書管理番号 format: int32</div>
+<div class="param">invoice_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#InvoiceStatus">InvoiceStatus</a></span>  </div>
+<div class="param">amount (optional)</div><div class="param-desc"><span class="param-type"><a href="#InvoiceAmount">InvoiceAmount</a></span>  </div>
+<div class="param">detail (optional)</div><div class="param-desc"><span class="param-type"><a href="#InvoiceDetail">InvoiceDetail</a></span>  </div>
+<div class="param">client (optional)</div><div class="param-desc"><span class="param-type"><a href="#Client">Client</a></span>  </div>
+<div class="param">property (optional)</div><div class="param-desc"><span class="param-type"><a href="#Invoice_property">Invoice_property</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="InvoiceAmount"><code>InvoiceAmount</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">invoice_amt (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> 請求金額 format: int32</div>
+<div class="param">tax_amt (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> 消費税 format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="InvoiceDetail"><code>InvoiceDetail</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">invoice_create_date (optional)</div><div class="param-desc"><span class="param-type"><a href="#date">date</a></span> 請求書作成日 format: date</div>
+<div class="param">invoice_title (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 請求書件名 </div>
+<div class="param">invoice_start_date (optional)</div><div class="param-desc"><span class="param-type"><a href="#date">date</a></span> 請求期間開始日 format: date</div>
+<div class="param">invoice_end_date (optional)</div><div class="param-desc"><span class="param-type"><a href="#date">date</a></span> 請求期間終了日 format: date</div>
+<div class="param">invoice_note (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 備考 </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="InvoiceStatus"><code>InvoiceStatus</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>請求状態:
+[ new: 新規作成, sent: 送付済, paid: 入金確認済, countermand: 廃棄 ]</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Invoice_property"><code>Invoice_property</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">create_user (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 登録ユーザID </div>
+<div class="param">create_datetime (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span> 登録日時 format: date-time</div>
+<div class="param">update_user (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 更新ユーザID </div>
+<div class="param">update_datetime (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span> 更新日時 format: date-time</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="invoice"><code>invoice</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">user_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User ID </div>
+<div class="param">client_no </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Client number format: int32</div>
+<div class="param">detail </div><div class="param-desc"><span class="param-type"><a href="#InvoiceDetail">InvoiceDetail</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>

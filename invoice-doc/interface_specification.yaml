@@ -1,0 +1,233 @@
+swagger: '2.0'
+info:
+  description: Invoice API Interface Specification
+  version: 1.0.0
+  title: Invoice API Specification
+host: localhost
+paths:
+  /invoices:
+    get:
+      tags:
+        - invoices
+      summary: Get invoice list
+      description: Return invoice list
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Invoice'
+    post:
+      tags:
+        - invoices
+      summary: Create new Invoice
+      description: Create new a single invoice
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/InvoiceParams'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Invoice'
+        '400':
+          $ref: '#/responses/BadRequest'
+  '/invoices/{invoice_no}':
+    get:
+      tags:
+        - invoices
+      summary: Finds invoice by ID
+      description: Return a single invoice
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/InvoiceNumber'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Invoice'
+        '400':
+          $ref: '#/responses/BadRequest'
+    patch:
+      tags:
+        - invoices
+      summary: Update invoice
+      description: Update a single invoice
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/InvoiceNumber'
+        - $ref: '#/parameters/InvoiceStatus'
+        - $ref: '#/parameters/InvoiceParams'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Invoice'
+        '400':
+          $ref: '#/responses/BadRequest'
+parameters:
+  InvoiceNumber:
+    name: invoice_no
+    in: path
+    description: Invoce number
+    required: true
+    type: integer
+    format: int32
+  InvoiceStatus:
+    name: status
+    description: Invoce status
+    in: query
+    type: string
+    maxLength: 30
+  InvoiceParams:
+    name: invoice
+    in: body
+    description: Invoice detail to update
+    schema:
+      type: object
+      required:
+        - user_id
+        - client_no
+        - detail
+      properties:
+        user_id:
+          description: User ID
+          type: string
+          maxLength: 30
+        client_no:
+          description: Client number
+          type: integer
+          format: int32
+          minimum: 0
+          exclusiveMinimum: true
+        detail:
+          $ref: '#/definitions/InvoiceDetail'
+definitions:
+  ClientNumber:
+    type: integer
+    format: int32
+    minimum: 0
+    exclusiveMinimum: true
+    description: 顧客管理番号
+  Client:
+    type: object
+    properties:
+      client_no:
+        $ref: '#/definitions/ClientNumber'
+      client_charge_last_name:
+        type: string
+        maxLength: 150
+        description: 顧客担当者氏名（名字）
+      client_charge_first_name:
+        type: string
+        maxLength: 150
+        description: 顧客担当者氏名（名前）
+  InvoiceAmount:
+    type: object
+    properties:
+      invoice_amt:
+        type: integer
+        format: int32
+        minimum: 0
+        exclusiveMinimum: true
+        description: 請求金額
+      tax_amt:
+        type: integer
+        format: int32
+        minimum: 0
+        exclusiveMinimum: false
+        description: 消費税
+  InvoiceDetail:
+    type: object
+    properties:
+      invoice_create_date:
+        type: string
+        format: date
+        description: 請求書作成日
+      invoice_title:
+        type: string
+        maxLength: 300
+        description: 請求書件名
+      invoice_start_date:
+        type: string
+        format: date
+        description: 請求期間開始日
+      invoice_end_date:
+        type: string
+        format: date
+        description: 請求期間終了日
+      invoice_note:
+        type: string
+        maxLength: 3000
+        description: 備考
+  InvoiceStatus:
+    type: string
+    enum:
+      - new
+      - sent
+      - paid
+      - countermand
+    description: |-
+      請求状態:
+      [ new: 新規作成, sent: 送付済, paid: 入金確認済, countermand: 廃棄 ]
+  Invoice:
+    type: object
+    properties:
+      invoice_no:
+        type: integer
+        format: int32
+        minimum: 0
+        exclusiveMinimum: true
+        description: 請求書管理番号
+      invoice_status:
+        $ref: '#/definitions/InvoiceStatus'
+      amount:
+        $ref: '#/definitions/InvoiceAmount'
+      detail:
+        $ref: '#/definitions/InvoiceDetail'
+      client:
+        $ref: '#/definitions/Client'
+      property:
+        type: object
+        properties:
+          create_user:
+            type: string
+            maxLength: 30
+            description: 登録ユーザID
+          create_datetime:
+            type: string
+            format: date-time
+            description: 登録日時
+          update_user:
+            type: string
+            maxLength: 30
+            description: 更新ユーザID
+          update_datetime:
+            type: string
+            format: date-time
+            description: 更新日時
+  Error:
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+      - code
+      - message
+responses:
+  BadRequest:
+    description: Bad reauest
+    schema:
+      $ref: '#/definitions/Error'
