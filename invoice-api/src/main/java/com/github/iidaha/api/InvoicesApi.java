@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.iidaha.model.Error;
 import com.github.iidaha.model.Invoice;
+import com.github.iidaha.model.InvoiceParams;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -63,7 +64,7 @@ public interface InvoicesApi {
         consumes = {"application/json"},
         method = RequestMethod.PATCH)
     ResponseEntity<Invoice> invoicesInvoiceNoPatch(@ApiParam(value = "Invoce number", required = true) @PathVariable("invoice_no") Integer invoiceNo,
-            @Size(max = 30) @ApiParam(value = "Invoce status") @RequestParam(value = "status", required = false) String status, @ApiParam(value = "Invoice detail to update") @Valid @RequestBody Invoice invoice);
+            @Size(max = 30) @ApiParam(value = "Invoce status") @RequestParam(value = "status", required = false) String status, @ApiParam(value = "Invoice detail to update") @Valid @RequestBody InvoiceParams invoiceParama);
 
 
     @CrossOrigin
@@ -76,6 +77,6 @@ public interface InvoicesApi {
         produces = {"application/json"},
         consumes = {"application/json"},
         method = RequestMethod.POST)
-    ResponseEntity<Invoice> invoicesPost(@ApiParam(value = "Invoice detail to update") @Valid @RequestBody Invoice invoice);
+    ResponseEntity<Invoice> invoicesPost(@ApiParam(value = "Invoice detail to update") @Valid @RequestBody InvoiceParams invoiceParams);
 
 }

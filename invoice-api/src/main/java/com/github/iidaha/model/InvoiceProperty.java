@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -19,13 +19,13 @@ public class InvoiceProperty   {
   private String createUser = null;
 
   @JsonProperty("create_datetime")
-  private DateTime createDatetime = null;
+  private LocalDateTime createDatetime = null;
 
   @JsonProperty("update_user")
   private String updateUser = null;
 
   @JsonProperty("update_datetime")
-  private DateTime updateDatetime = null;
+  private LocalDateTime updateDatetime = null;
 
   public InvoiceProperty createUser(String createUser) {
     this.createUser = createUser;
@@ -47,7 +47,7 @@ public class InvoiceProperty   {
     this.createUser = createUser;
   }
 
-  public InvoiceProperty createDatetime(DateTime createDatetime) {
+  public InvoiceProperty createDatetime(LocalDateTime createDatetime) {
     this.createDatetime = createDatetime;
     return this;
   }
@@ -60,11 +60,11 @@ public class InvoiceProperty   {
 
   @Valid
 
-  public DateTime getCreateDatetime() {
+  public LocalDateTime getCreateDatetime() {
     return createDatetime;
   }
 
-  public void setCreateDatetime(DateTime createDatetime) {
+  public void setCreateDatetime(LocalDateTime createDatetime) {
     this.createDatetime = createDatetime;
   }
 
@@ -88,7 +88,7 @@ public class InvoiceProperty   {
     this.updateUser = updateUser;
   }
 
-  public InvoiceProperty updateDatetime(DateTime updateDatetime) {
+  public InvoiceProperty updateDatetime(LocalDateTime updateDatetime) {
     this.updateDatetime = updateDatetime;
     return this;
   }
@@ -101,11 +101,11 @@ public class InvoiceProperty   {
 
   @Valid
 
-  public DateTime getUpdateDatetime() {
+  public LocalDateTime getUpdateDatetime() {
     return updateDatetime;
   }
 
-  public void setUpdateDatetime(DateTime updateDatetime) {
+  public void setUpdateDatetime(LocalDateTime updateDatetime) {
     this.updateDatetime = updateDatetime;
   }
 
@@ -134,7 +134,7 @@ public class InvoiceProperty   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class InvoiceProperty {\n");
-    
+
     sb.append("    createUser: ").append(toIndentedString(createUser)).append("\n");
     sb.append("    createDatetime: ").append(toIndentedString(createDatetime)).append("\n");
     sb.append("    updateUser: ").append(toIndentedString(updateUser)).append("\n");
